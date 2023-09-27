@@ -1,11 +1,7 @@
-test
-
-test2
 
 ---
 title: "milestone1"
 author: "April Hwang"
-date: "2023-09-27"
 output: html_document
 ---
 ---
@@ -13,103 +9,52 @@ title: "Mini Data-Analysis Deliverable 1"
 output: html_document
 ---
 
-# Welcome to your (maybe) first-ever data analysis project!
-
-And hopefully the first of many. Let's get started:
-
-1.  Install the [`datateachr`](https://github.com/UBC-MDS/datateachr) package by typing the following into your **R terminal**:
-
-<!-- -->
-
-    install.packages("devtools")
-    devtools::install_github("UBC-MDS/datateachr")
-
-2.  Load the packages below.
-
 ```{r}
+#Load libraries
 library(datateachr)
 library(tidyverse)
 ```
+<br>
 
-3.  Make a repository in the <https://github.com/stat545ubc-2023> Organization. You can do this by following the steps found on canvas in the entry called [MDA: Create a repository](https://canvas.ubc.ca/courses/126199/pages/mda-create-a-repository). One completed, your repository should automatically be listed as part of the stat545ubc-2023 Organization.
-
-# Instructions
-
-## For Both Milestones
-
--   Each milestone has explicit tasks. Tasks that are more challenging will often be allocated more points.
-
--  Each milestone will be also graded for reproducibility, cleanliness, and coherence of the overall Github submission. 
-
-- While the two milestones will be submitted as independent deliverables, the analysis itself is a continuum - think of it as two chapters to a story. Each chapter, or in this case, portion of your analysis, should be easily followed through by someone unfamiliar with the content. [Here](https://swcarpentry.github.io/r-novice-inflammation/06-best-practices-R/) is a good resource for what constitutes "good code". Learning good coding practices early in your career will save you hassle later on!
-
-- The milestones will be equally weighted. 
-
-## For Milestone 1
-
-**To complete this milestone**, edit [this very `.Rmd` file](https://raw.githubusercontent.com/UBC-STAT/stat545.stat.ubc.ca/master/content/mini-project/mini-project-1.Rmd) directly. Fill in the sections that are tagged with `<!--- start your work below --->`.
-
-**To submit this milestone**, make sure to knit this `.Rmd` file to an `.md` file by changing the YAML output settings from `output: html_document` to `output: github_document`. Commit and push all of your work to the mini-analysis GitHub repository you made earlier, and tag a release on GitHub. Then, submit a link to your tagged release on canvas.
-
-**Points**: This milestone is worth 36 points: 30 for your analysis, and 6 for overall reproducibility, cleanliness, and coherence of the Github submission. 
-
-# Learning Objectives
-
-By the end of this milestone, you should:
-
--   Become familiar with your dataset of choosing
--   Select 4 questions that you would like to answer with your data
--   Generate a reproducible and clear report using R Markdown
--   Become familiar with manipulating and summarizing your data in tibbles using `dplyr`, with a research question in mind.
-
-# Task 1: Choose your favorite dataset 
-
-The `datateachr` package by Hayley Boyce and Jordan Bourak currently composed of 7 semi-tidy datasets for educational purposes. Here is a brief description of each dataset:
-
--   *apt_buildings*: Acquired courtesy of The City of Toronto's Open Data Portal. It currently has 3455 rows and 37 columns.
-
--   *building_permits*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 20680 rows and 14 columns.
-
--   *cancer_sample*: Acquired courtesy of UCI Machine Learning Repository. It currently has 569 rows and 32 columns.
-
--   *flow_sample*: Acquired courtesy of The Government of Canada's Historical Hydrometric Database. It currently has 218 rows and 7 columns.
-
--   *parking_meters*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 10032 rows and 22 columns.
-
--   *steam_games*: Acquired courtesy of Kaggle. It currently has 40833 rows and 21 columns.
-
--   *vancouver_trees*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 146611 rows and 20 columns.
-
-**Things to keep in mind**
-
--   We hope that this project will serve as practice for carrying our your own *independent* data analysis. Remember to comment your code, be explicit about what you are doing, and write notes in this markdown document when you feel that context is required. As you advance in the project, prompts and hints to do this will be diminished - it'll be up to you!
-
--   Before choosing a dataset, you should always keep in mind **your goal**, or in other ways, *what you wish to achieve with this data*. This mini data-analysis project focuses on *data wrangling*, *tidying*, and *visualization*. In short, it's a way for you to get your feet wet with exploring data on your own.
-
-And that is exactly the first thing that you will do!
+### Task 1: Choose your favorite dataset 
 
 1.1 **(1 point)** Out of the 7 datasets available in the `datateachr` package, choose **4** that appeal to you based on their description. Write your choices below:
 
-**Note**: We encourage you to use the ones in the `datateachr` package, but if you have a dataset that you'd really like to use, you can include it here. But, please check with a member of the teaching team to see whether the dataset is of appropriate complexity. Also, include a **brief** description of the dataset here to help the teaching team understand your data.
 
 <!-------------------------- Start your work below ---------------------------->
 
-1: CHOICE_1\_HERE\
-2: CHOICE_2\_HERE\
-3: CHOICE_3\_HERE\
-4: CHOICE_4\_HERE
+1. apt_buildings
+2. parking_meters
+3. steam_games
+4. vancouver_trees
 
 <!----------------------------------------------------------------------------->
 
+<br>
+
 1.2 **(6 points)** One way to narrowing down your selection is to *explore* the datasets. Use your knowledge of dplyr to find out at least *3* attributes about each of these datasets (an attribute is something such as number of rows, variables, class type...). The goal here is to have an idea of *what the data looks like*.
 
-*Hint:* This is one of those times when you should think about the cleanliness of your analysis. I added a single code chunk for you below, but do you want to use more than one? Would you like to write more comments outside of the code chunk?
 
 <!-------------------------- Start your work below ---------------------------->
 
 ```{r}
-### EXPLORE HERE ###
-steam_games
+#Attribute 1 - class type 
+class(apt_buildings)
+class(parking_meters)
+class(steam_games)
+class(vancouver_trees)
+
+#Attribute 2 - rows and columns
+glimpse(apt_buildings)
+glimpse(parking_meters)
+glimpse(steam_games)
+glimpse(vancouver_trees)
+
+#Attribute 3 - count unique dataset in column
+summarise(apt_buildings, across(where(is.character), n_distinct))
+summarise(parking_meters, across(where(is.character), n_distinct))
+summarise(steam_games, across(where(is.character), n_distinct))
+summarise(vancouver_trees, across(where(is.character), n_distinct))
 ```
 
 <!----------------------------------------------------------------------------->
