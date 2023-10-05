@@ -1,0 +1,2 @@
+"0","apt_buildings_summary <- summarise(apt_buildings, across(where(is.character), n_distinct))"
+"0","DT::datatable(apt_buildings_summary, options = list(scrollX = TRUE))"
