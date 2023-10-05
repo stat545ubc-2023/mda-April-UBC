@@ -201,57 +201,153 @@ glimpse(vancouver_trees)
 #### **Attribute 3 - count unique dataset in column**
 
 ``` r
-summarise(apt_buildings, across(where(is.character), n_distinct))
+#count unique dataset in apt_buildings
+apt_summary_tbl <- summarise(apt_buildings, across(c(id:no_barrier_free_accessible_units), n_distinct)) 
+
+apt_long_summary_tbl <- apt_summary_tbl %>% pivot_longer(cols = everything(), names_to = 'variable_name', values_to = 'n_distinct')
+print(apt_long_summary_tbl, n = 37)
 ```
 
-    ## # A tibble: 1 × 28
-    ##   air_conditioning amenities balconies barrier_free_accessibilty_…¹ bike_parking
-    ##              <int>     <int>     <int>                        <int>        <int>
-    ## 1                4        70         3                            3          195
-    ## # ℹ abbreviated name: ¹​barrier_free_accessibilty_entr
-    ## # ℹ 23 more variables: exterior_fire_escape <int>, fire_alarm <int>,
-    ## #   garbage_chutes <int>, heating_type <int>, intercom <int>,
-    ## #   laundry_room <int>, locker_or_storage_room <int>, parking_type <int>,
-    ## #   pets_allowed <int>, prop_management_company_name <int>,
-    ## #   property_type <int>, separate_gas_meters <int>,
-    ## #   separate_hydro_meters <int>, separate_water_meters <int>, …
+    ## # A tibble: 37 × 2
+    ##    variable_name                    n_distinct
+    ##    <chr>                                 <int>
+    ##  1 id                                     3455
+    ##  2 air_conditioning                          4
+    ##  3 amenities                                70
+    ##  4 balconies                                 3
+    ##  5 barrier_free_accessibilty_entr            3
+    ##  6 bike_parking                            195
+    ##  7 exterior_fire_escape                      3
+    ##  8 fire_alarm                                3
+    ##  9 garbage_chutes                            3
+    ## 10 heating_type                              4
+    ## 11 intercom                                  3
+    ## 12 laundry_room                              3
+    ## 13 locker_or_storage_room                    3
+    ## 14 no_of_elevators                          11
+    ## 15 parking_type                             42
+    ## 16 pets_allowed                              3
+    ## 17 prop_management_company_name            692
+    ## 18 property_type                             3
+    ## 19 rsn                                    3455
+    ## 20 separate_gas_meters                       3
+    ## 21 separate_hydro_meters                     3
+    ## 22 separate_water_meters                     3
+    ## 23 site_address                           3445
+    ## 24 sprinkler_system                          3
+    ## 25 visitor_parking                           5
+    ## 26 ward                                     26
+    ## 27 window_type                               4
+    ## 28 year_built                              128
+    ## 29 year_registered                           5
+    ## 30 no_of_storeys                            38
+    ## 31 emergency_power                           3
+    ## 32 non-smoking_building                      3
+    ## 33 no_of_units                             380
+    ## 34 no_of_accessible_parking_spaces          94
+    ## 35 facilities_available                      4
+    ## 36 cooling_room                              3
+    ## 37 no_barrier_free_accessible_units        167
 
 ``` r
-summarise(parking_meters, across(where(is.character), n_distinct))
+#count unique dataset in parking_meters
+parking_summary_tbl <- summarise(parking_meters, across(c(meter_head:meter_id), n_distinct))
+
+parking_long_summary_tbl <- parking_summary_tbl %>% pivot_longer(cols = everything(), names_to = 'variable_name', values_to = 'n_distinct')
+print(parking_long_summary_tbl, n = 22)
 ```
 
-    ## # A tibble: 1 × 20
-    ##   meter_head r_mf_9a_6p r_mf_6p_10 r_sa_9a_6p r_sa_6p_10 r_su_9a_6p r_su_6p_10
-    ##        <int>      <int>      <int>      <int>      <int>      <int>      <int>
-    ## 1          7         14         13         14         13         15         14
-    ## # ℹ 13 more variables: rate_misc <int>, time_in_effect <int>, t_mf_9a_6p <int>,
-    ## #   t_mf_6p_10 <int>, t_sa_9a_6p <int>, t_sa_6p_10 <int>, t_su_9a_6p <int>,
-    ## #   t_su_6p_10 <int>, time_misc <int>, credit_card <int>, pay_phone <int>,
-    ## #   geo_local_area <int>, meter_id <int>
+    ## # A tibble: 22 × 2
+    ##    variable_name  n_distinct
+    ##    <chr>               <int>
+    ##  1 meter_head              7
+    ##  2 r_mf_9a_6p             14
+    ##  3 r_mf_6p_10             13
+    ##  4 r_sa_9a_6p             14
+    ##  5 r_sa_6p_10             13
+    ##  6 r_su_9a_6p             15
+    ##  7 r_su_6p_10             14
+    ##  8 rate_misc               9
+    ##  9 time_in_effect          2
+    ## 10 t_mf_9a_6p              8
+    ## 11 t_mf_6p_10              8
+    ## 12 t_sa_9a_6p              8
+    ## 13 t_sa_6p_10              8
+    ## 14 t_su_9a_6p              8
+    ## 15 t_su_6p_10              9
+    ## 16 time_misc               5
+    ## 17 credit_card             3
+    ## 18 pay_phone           10029
+    ## 19 longitude            5671
+    ## 20 latitude             5671
+    ## 21 geo_local_area         18
+    ## 22 meter_id            10032
 
 ``` r
-summarise(steam_games, across(where(is.character), n_distinct))
+#count unique dataset in steam_games
+games_summary_tbl <- summarise(steam_games, across(c(id:discount_price), n_distinct))
+
+games_long_summary_tbl <- games_summary_tbl %>% pivot_longer(cols = everything(), names_to = 'variable_name', values_to = 'n_distinct')
+print(games_long_summary_tbl, n = 21)
 ```
 
-    ## # A tibble: 1 × 17
-    ##     url types  name desc_snippet recent_reviews all_reviews release_date
-    ##   <int> <int> <int>        <int>          <int>       <int>        <int>
-    ## 1 40833     4 40752        27412           1301        9211         4110
-    ## # ℹ 10 more variables: developer <int>, publisher <int>, popular_tags <int>,
-    ## #   game_details <int>, languages <int>, genre <int>, game_description <int>,
-    ## #   mature_content <int>, minimum_requirements <int>,
-    ## #   recommended_requirements <int>
+    ## # A tibble: 21 × 2
+    ##    variable_name            n_distinct
+    ##    <chr>                         <int>
+    ##  1 id                            40833
+    ##  2 url                           40833
+    ##  3 types                             4
+    ##  4 name                          40752
+    ##  5 desc_snippet                  27412
+    ##  6 recent_reviews                 1301
+    ##  7 all_reviews                    9211
+    ##  8 release_date                   4110
+    ##  9 developer                     17419
+    ## 10 publisher                     15282
+    ## 11 popular_tags                  20854
+    ## 12 game_details                   6017
+    ## 13 languages                      5497
+    ## 14 achievements                    361
+    ## 15 genre                          1769
+    ## 16 game_description              37497
+    ## 17 mature_content                 1263
+    ## 18 minimum_requirements          14765
+    ## 19 recommended_requirements      13839
+    ## 20 original_price                  436
+    ## 21 discount_price                 2061
 
 ``` r
-summarise(vancouver_trees, across(where(is.character), n_distinct))
+#count unique dataset in vancouver_trees
+trees_summary_tbl <- summarise(vancouver_trees, across(c(tree_id:latitude), n_distinct))
+
+trees_long_summary_tbl <- games_summary_tbl %>% pivot_longer(cols = everything(), names_to = 'variable_name', values_to = 'n_distinct')
+print(trees_long_summary_tbl, n = 20)
 ```
 
-    ## # A tibble: 1 × 12
-    ##   std_street genus_name species_name cultivar_name common_name assigned
-    ##        <int>      <int>        <int>         <int>       <int>    <int>
-    ## 1        805         97          283           294         634        2
-    ## # ℹ 6 more variables: root_barrier <int>, plant_area <int>, on_street <int>,
-    ## #   neighbourhood_name <int>, street_side_name <int>, curb <int>
+    ## # A tibble: 21 × 2
+    ##    variable_name            n_distinct
+    ##    <chr>                         <int>
+    ##  1 id                            40833
+    ##  2 url                           40833
+    ##  3 types                             4
+    ##  4 name                          40752
+    ##  5 desc_snippet                  27412
+    ##  6 recent_reviews                 1301
+    ##  7 all_reviews                    9211
+    ##  8 release_date                   4110
+    ##  9 developer                     17419
+    ## 10 publisher                     15282
+    ## 11 popular_tags                  20854
+    ## 12 game_details                   6017
+    ## 13 languages                      5497
+    ## 14 achievements                    361
+    ## 15 genre                          1769
+    ## 16 game_description              37497
+    ## 17 mature_content                 1263
+    ## 18 minimum_requirements          14765
+    ## 19 recommended_requirements      13839
+    ## 20 original_price                  436
+    ## # ℹ 1 more row
 
 <br>
 
@@ -322,22 +418,47 @@ missing data, in that the amount of data available itself may be
 pertinent to a research question.
 
 ``` r
-apt_buildings %>%
-  select(everything()) %>%
-  summarise_all(funs(sum(is.na(.))))
+apply(X = is.na(apt_buildings), MARGIN = 2, FUN = sum)
 ```
 
-    ## # A tibble: 1 × 37
-    ##      id air_conditioning amenities balconies barrier_free_accessi…¹ bike_parking
-    ##   <int>            <int>     <int>     <int>                  <int>        <int>
-    ## 1     0               85      2518        88                     82            0
-    ## # ℹ abbreviated name: ¹​barrier_free_accessibilty_entr
-    ## # ℹ 31 more variables: exterior_fire_escape <int>, fire_alarm <int>,
-    ## #   garbage_chutes <int>, heating_type <int>, intercom <int>,
-    ## #   laundry_room <int>, locker_or_storage_room <int>, no_of_elevators <int>,
-    ## #   parking_type <int>, pets_allowed <int>, prop_management_company_name <int>,
-    ## #   property_type <int>, rsn <int>, separate_gas_meters <int>,
-    ## #   separate_hydro_meters <int>, separate_water_meters <int>, …
+    ##                               id                 air_conditioning 
+    ##                                0                               85 
+    ##                        amenities                        balconies 
+    ##                             2518                               88 
+    ##   barrier_free_accessibilty_entr                     bike_parking 
+    ##                               82                                0 
+    ##             exterior_fire_escape                       fire_alarm 
+    ##                               95                               87 
+    ##                   garbage_chutes                     heating_type 
+    ##                               83                               86 
+    ##                         intercom                     laundry_room 
+    ##                               90                               85 
+    ##           locker_or_storage_room                  no_of_elevators 
+    ##                               88                                5 
+    ##                     parking_type                     pets_allowed 
+    ##                              350                               90 
+    ##     prop_management_company_name                    property_type 
+    ##                             1363                                0 
+    ##                              rsn              separate_gas_meters 
+    ##                                0                               88 
+    ##            separate_hydro_meters            separate_water_meters 
+    ##                               87                               87 
+    ##                     site_address                 sprinkler_system 
+    ##                                0                               87 
+    ##                  visitor_parking                             ward 
+    ##                               87                                0 
+    ##                      window_type                       year_built 
+    ##                                8                               13 
+    ##                  year_registered                    no_of_storeys 
+    ##                               89                                0 
+    ##                  emergency_power             non-smoking_building 
+    ##                               86                               94 
+    ##                      no_of_units  no_of_accessible_parking_spaces 
+    ##                                0                              123 
+    ##             facilities_available                     cooling_room 
+    ##                                0                               88 
+    ## no_barrier_free_accessible_units 
+    ##                              154
 
 RE: plotting - as per Lucy’s message on Slack “I’m going to say that
 it’s okay to answer this question by (1) investigating by summary and
