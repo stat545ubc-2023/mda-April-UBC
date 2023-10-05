@@ -12,5 +12,5 @@
 
   * _README.md_ : This README file provides information regarding this repository
   * _milestone_1.Rmd_ : The rmd file for the milestone 1 of mini data analysis
-  * _milestone_1.md_ : The output md file for the milestone 1 of mini data analysis, which is same as the milestone_1.Rmd file
+  * _milestone_1.md_ : The output md file for the milestone 1 of mini data analysis, and contents are the same as the milestone_1.Rmd file
   
