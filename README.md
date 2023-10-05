@@ -10,7 +10,7 @@
   
 - You can enage in this directory by viewing the following documents as you wish: 
 
-  * README.md file : This README file provides information regarding this repository
-  * milestone_1.Rmd file : The rmd file for the milestone 1 of mini data analysis
-  * milestone_1.md file: The output md file for the milestone 1 of mini data analysis, which is same as the milestone_1.Rmd file
+  * _README.md_ : This README file provides information regarding this repository
+  * _milestone_1.Rmd_ : The rmd file for the milestone 1 of mini data analysis
+  * _milestone_1.md_ : The output md file for the milestone 1 of mini data analysis, which is same as the milestone_1.Rmd file
   
