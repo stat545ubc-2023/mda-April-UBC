@@ -2,7 +2,7 @@
 title: "Mini Data-Analysis Deliverable 1"
 author: "April Hwang"
 output: 
-    md_document:
+    github_document:
     toc: true
     toc_float: true
     df_print: paged
