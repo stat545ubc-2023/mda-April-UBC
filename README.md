@@ -3,9 +3,14 @@
 
 #### What is this repository?
   
-- In a sentence or two, explains what this repository is, so that future-you or someone else stumbling on your repository can be oriented to the repository.
+- This repository is intended for submission of mini data analysis assignments for STAT 545A at UBC. The contents will be uploaded by myself, April Hwang, and the intendend viewers are the teaching staff of STAT 545A.
 
 
 #### How to engage with this repository?
   
-- In a sentence or two (or more??), briefly explains how to engage with the repository. You can assume the person reading knows the material from STAT 545A. Basically, if a visitor to your repository wants to explore your project, what should they know?
+- You can enage in this directory by viewing the following documents as you wish: 
+
+  * _README.md_ : This README file provides information regarding this repository
+  * _milestone_1.Rmd_ : The rmd file for the milestone 1 of mini data analysis
+  * _milestone_1.md_ : The output md file for the milestone 1 of mini data analysis, and contents are the same as the milestone_1.Rmd file
+  
