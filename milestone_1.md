@@ -418,7 +418,7 @@ missing data, in that the amount of data available itself may be
 pertinent to a research question.
 
 ``` r
-apply(X = is.na(apt_buildings), MARGIN = 2, FUN = sum)
+sapply(apt_buildings, function(x) sum(is.na(x)))
 ```
 
     ##                               id                 air_conditioning 
