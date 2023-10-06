@@ -201,7 +201,7 @@ glimpse(vancouver_trees)
 #### **Attribute 3 - count unique dataset in column**
 
 ``` r
-#count unique dataset in apt_buildings
+#count unique dataset of each variable in apt_buildings
 apt_summary_tbl <- summarise(apt_buildings, across(c(id:no_barrier_free_accessible_units), n_distinct)) 
 
 apt_long_summary_tbl <- apt_summary_tbl %>% pivot_longer(cols = everything(), names_to = 'variable_name', values_to = 'n_distinct')
@@ -250,7 +250,7 @@ print(apt_long_summary_tbl, n = 37)
     ## 37 no_barrier_free_accessible_units        167
 
 ``` r
-#count unique dataset in parking_meters
+#count unique dataset of each variable in parking_meters
 parking_summary_tbl <- summarise(parking_meters, across(c(meter_head:meter_id), n_distinct))
 
 parking_long_summary_tbl <- parking_summary_tbl %>% pivot_longer(cols = everything(), names_to = 'variable_name', values_to = 'n_distinct')
@@ -284,7 +284,7 @@ print(parking_long_summary_tbl, n = 22)
     ## 22 meter_id            10032
 
 ``` r
-#count unique dataset in steam_games
+#count unique dataset of each variable in steam_games
 games_summary_tbl <- summarise(steam_games, across(c(id:discount_price), n_distinct))
 
 games_long_summary_tbl <- games_summary_tbl %>% pivot_longer(cols = everything(), names_to = 'variable_name', values_to = 'n_distinct')
@@ -317,7 +317,7 @@ print(games_long_summary_tbl, n = 21)
     ## 21 discount_price                 2061
 
 ``` r
-#count unique dataset in vancouver_trees
+#count unique dataset of each variable in vancouver_trees
 trees_summary_tbl <- summarise(vancouver_trees, across(c(tree_id:latitude), n_distinct))
 
 trees_long_summary_tbl <- games_summary_tbl %>% pivot_longer(cols = everything(), names_to = 'variable_name', values_to = 'n_distinct')
@@ -398,6 +398,7 @@ pet ownership, as previously discussed, as well as other factors such as
 consideration for accessibility needs and smoking.
 
 ``` r
+#plot the distribution of year_built variable
 apt_buildings %>%
 ggplot(aes(x = year_built)) + 
     geom_density()
@@ -418,6 +419,7 @@ missing data, in that the amount of data available itself may be
 pertinent to a research question.
 
 ``` r
+#count number of missing values per variable
 sapply(apt_buildings, function(x) sum(is.na(x)))
 ```
 
@@ -496,6 +498,7 @@ an inquiry regarding availability of accessibility facilities for people
 with physical disabilities over time.
 
 ``` r
+#correlation plot to explore relationship between no_of_accessible_parking_spaces and year_built
 apt_buildings %>%
 ggplot(aes(x = year_built, y = no_of_accessible_parking_spaces)) +
     geom_point()
@@ -518,6 +521,7 @@ a quick glimpse of the relevant data and can be further manipulated in
 the future to make a graph.
 
 ``` r
+#make new tibble with only year_built and pets_allowed only; arrange by year
 apt_buildings %>%
   select(year_built, pets_allowed) %>%
   arrange(year_built)
