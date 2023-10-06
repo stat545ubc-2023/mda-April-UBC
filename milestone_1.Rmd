@@ -136,8 +136,9 @@ I chose this exercise because investigating how many missing values there are pe
 
 
 ```{r}
-apply(X = is.na(apt_buildings), MARGIN = 2, FUN = sum)
+sapply(apt_buildings, function(x) sum(is.na(x)))
 ```
+
 
 RE: plotting - as per Lucy's message on Slack "I'm going to say that it's okay to answer this question by (1) investigating by summary and (2) to say what the plot would look like, i.e. you don't have to make the plot if you don't want to.":
 
