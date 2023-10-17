@@ -17,26 +17,22 @@ library(tidyverse)
 
 # Task 1: Process and summarize your data 
 
-### 1.1 (1 point) 
+### 1.1 (1 point): Write research questions from milestone 1
 
-First, write out the 4 research questions you defined in milestone 1 were. This will guide your work through milestone 2:
+**Research question 1** : What, if any, is the relationship between time and allowance of pet ownership in this dataset? Similarly, is there any relationship between time and availability of accessible parking?
 
-<!-------------------------- Start your work below ---------------------------->
-1. *FILL_THIS_IN*
-2. *FILL_THIS_IN*
-3. *FILL_THIS_IN*
-4. *FILL_THIS_IN*
-<!----------------------------------------------------------------------------->
+**Research question 2** : Is there a relationship between the number of units and the number of storeys? 
 
-Here, we will investigate your data using various data manipulation and graphing functions.
+**Research question 3** : What are the variables for which information is most readily available (i.e. no missing data) and least readily available (i.e. large amount of missing data)?
+
+**Research question 4** : What are the top three most popular building amenities? 
+
 
 ### 1.2 (8 points)
 
 Now, for each of your four research questions, choose one task from options 1-4 (summarizing), and one other task from 4-8 (graphing). You should have 2 tasks done for each research question (8 total). Make sure it makes sense to do them! (e.g. don't use a numerical variables for a task that needs a categorical variable.). Comment on why each task helps (or doesn't!) answer the corresponding research question.
 
 Ensure that the output of each operation is printed!
-
-Also make sure that you're using dplyr and ggplot2 rather than base R. Outside of this project, you may find that you prefer using base R functions for certain tasks, and that's just fine! But part of this project is for you to practice the tools we learned in class, which is dplyr and ggplot2.
 
 **Summarizing:**
 
@@ -58,6 +54,47 @@ Using variables and/or tables you made in one of the "Summarizing" tasks:
 Make sure it's clear what research question you are doing each operation for!
 
 <!------------------------- Start your work below ----------------------------->
+
+**Research question 1** : What, if any, is the relationship between time and allowance of pet ownership in this dataset? Similarly, is there any relationship between time and availability of accessible parking?
+
+3. Create a categorical variable with 3 or more groups from an existing numerical variable.
+
+
+```{r}
+apt_buildings %>%
+  #count(year_built) #view range of years
+  mutate(year_level = case_when(year_built < 1901 ~ '19th century',
+                                year_built < 2001 ~ '20th century', 
+                                TRUE ~ '21st century')) #%>%
+  #select(year_built, year_level) %>% 
+  #arrange(year_built)
+```
+
+8. Create a graph that has at least two geom layers.
+```{r}
+apt_buildings %>%
+  ggplot(aes(x = year_built, y = no_of_accessible_parking_spaces)) + 
+  geom_point() +
+  theme_classic()
+
+```
+
+**Research question 2** : Is there a relationship between the number of units and the number of storeys?
+
+Summary
+
+
+8. Create a graph that has at least two geom layers. 
+
+```{r}
+apt_buildings %>%
+  ggplot(aes(x = year_built, y = no_of_units)) + 
+  geom_point(outlier.shape = NA, alpha = 0.2, colour = 'blue') +
+  coord_cartesian(ylim =  c(0, 800)) +
+  theme_classic()
+
+```
+
 
 <!----------------------------------------------------------------------------->
 
