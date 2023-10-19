@@ -91,6 +91,7 @@ apt_buildings %>%
   ggplot(aes(x = year_built, y = no_of_units)) + 
   geom_point(outlier.shape = NA, alpha = 0.2, colour = 'blue') +
   coord_cartesian(ylim =  c(0, 800)) +
+  geom_smooth(colour ='black') +
   theme_classic()
 
 ```
