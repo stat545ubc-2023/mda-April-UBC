@@ -57,34 +57,49 @@ Make sure it's clear what research question you are doing each operation for!
 
 **Research question 1** : What, if any, is the relationship between time and allowance of pet ownership in this dataset? Similarly, is there any relationship between time and availability of accessible parking?
 
-3. Create a categorical variable with 3 or more groups from an existing numerical variable.
+Summarizing: Create a categorical variable with 3 or more groups from an existing numerical variable.
 
+I will create a new categorical variable (year_level) which identifies the century in which the building was built. 
 
 ```{r}
 apt_buildings %>%
-  #count(year_built) #view range of years
   mutate(year_level = case_when(year_built < 1901 ~ '19th century',
                                 year_built < 2001 ~ '20th century', 
-                                TRUE ~ '21st century')) #%>%
-  #select(year_built, year_level) %>% 
-  #arrange(year_built)
+                                TRUE ~ '21st century'))
 ```
 
-8. Create a graph that has at least two geom layers.
+Graphing: Create a graph that has at least two geom layers.
+
+I will create a graph with year_built on the x-axis and no_of_accessible_parking_spaces on the y-axis. I will use geom_point() and geom_area().
+
 ```{r}
 apt_buildings %>%
   ggplot(aes(x = year_built, y = no_of_accessible_parking_spaces)) + 
-  geom_point() +
+  geom_point(colour = 'black', alpha = 0.2) +
+  geom_area(colour = 'blue', fill = 'blue') +
   theme_classic()
 
 ```
 
+
 **Research question 2** : Is there a relationship between the number of units and the number of storeys?
 
-Summary
+Summarizing: Create a categorical variable with 3 or more groups from an existing numerical variable.
+
+I will create a new categorical variable (_rise_level_) which classifies each building as *low-rise*, *mid-rise* or *high-rise*. For this exercise, low-rise buildings will be defined as buildings with 10 floors or under. Mid-rise buildings are defined as buildings that have between 11 to 15 floors. High-rise buildings are defined as buildings that have 16 floors or above.  
+
+```{r}
+apt_buildings %>%
+  mutate(rise_level = case_when(no_of_storeys < 11 ~ 'low-rise',
+                                no_of_storeys < 16 ~ 'mid-rise', 
+                                TRUE ~ 'high-rise'))
+```
 
 
-8. Create a graph that has at least two geom layers. 
+Graphing:Create a graph that has at least two geom layers. 
+
+I will create a graph with year_built on the x-axis and no_of_units on the y-axis. I will use geom_point() and geom_smooth().
+
 
 ```{r}
 apt_buildings %>%
