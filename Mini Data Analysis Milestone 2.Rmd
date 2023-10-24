@@ -44,6 +44,7 @@ Ensure that the output of each operation is printed!
 **Graphing:**
 
 6. Create a graph of your choosing, make one of the axes logarithmic, and format the axes labels so that they are "pretty" or easier to read.
+
 7. Make a graph where it makes sense to customize the alpha transparency.
 
 Using variables and/or tables you made in one of the "Summarizing" tasks: 
@@ -57,7 +58,7 @@ Make sure it's clear what research question you are doing each operation for!
 
 **Research question 1** : What, if any, is the relationship between time and allowance of pet ownership in this dataset? Similarly, is there any relationship between time and availability of accessible parking?
 
-Summarizing: Create a categorical variable with 3 or more groups from an existing numerical variable.
+*Summarizing*: Create a categorical variable with 3 or more groups from an existing numerical variable.
 
 I will create a new categorical variable (year_level) which identifies the century in which the building was built. 
 
@@ -68,15 +69,19 @@ apt_buildings %>%
                                 TRUE ~ '21st century'))
 ```
 
-Graphing: Create a graph that has at least two geom layers.
+*Graphing*: Create a graph that has at least two geom layers.
 
-I will create a graph with year_built on the x-axis and no_of_accessible_parking_spaces on the y-axis. I will use geom_point() and geom_area().
+I will create a graph with year_level (the same variable that I made in the above summarizing task) on the x-axis and no_of_accessible_parking_spaces on the y-axis. I will use geom_boxplot() and geom_jitter().
 
 ```{r}
 apt_buildings %>%
-  ggplot(aes(x = year_built, y = no_of_accessible_parking_spaces)) + 
-  geom_point(colour = 'black', alpha = 0.2) +
-  geom_area(colour = 'blue', fill = 'blue') +
+  mutate(year_level = case_when(year_built < 1901 ~ '19th century',
+                                year_built < 2001 ~ '20th century', 
+                                TRUE ~ '21st century')) %>%
+  ggplot(aes(x = year_level, y = no_of_accessible_parking_spaces)) + 
+  geom_boxplot() +
+  geom_jitter(alpha = 0.2) + 
+  scale_y_log10('no_of_accessible_parking_spaces') +
   theme_classic()
 
 ```
@@ -84,9 +89,9 @@ apt_buildings %>%
 
 **Research question 2** : Is there a relationship between the number of units and the number of storeys?
 
-Summarizing: Create a categorical variable with 3 or more groups from an existing numerical variable.
+*Summarizing*: Create a categorical variable with 3 or more groups from an existing numerical variable.
 
-I will create a new categorical variable (_rise_level_) which classifies each building as *low-rise*, *mid-rise* or *high-rise*. For this exercise, low-rise buildings will be defined as buildings with 10 floors or under. Mid-rise buildings are defined as buildings that have between 11 to 15 floors. High-rise buildings are defined as buildings that have 16 floors or above.  
+I will create a new categorical variable (_rise_level_) which classifies each building as low-rise, mid-rise or high-rise. For this exercise, low-rise buildings will be defined as buildings with 10 floors or under. Mid-rise buildings are defined as buildings that have between 11 to 15 floors. High-rise buildings are defined as buildings that have 16 floors or above.  
 
 ```{r}
 apt_buildings %>%
@@ -96,12 +101,28 @@ apt_buildings %>%
 ```
 
 
-Graphing:Create a graph that has at least two geom layers. 
+*Graphing*:Create a graph that has at least two geom layers. 
 
-I will create a graph with year_built on the x-axis and no_of_units on the y-axis. I will use geom_point() and geom_smooth().
+I will be creating a graph using geom_jitter() and geom_smooth(), incorporating the variable created above, _rise_level_.
 
 
 ```{r}
+apt_buildings %>%
+  mutate(rise_level = case_when(no_of_storeys < 11 ~ 'low-rise',
+                                no_of_storeys < 16 ~ 'mid-rise', 
+                                TRUE ~ 'high-rise')) %>%
+  ggplot(aes(x = no_of_units, y = no_of_storeys, colour = rise_level)) + 
+  geom_jitter(outlier.shape = NA, alpha = 0.2) +
+  coord_cartesian(xlim =  c(0, 700)) +
+  geom_smooth() +
+  theme_classic()
+
+```
+
+
+```{r}
+
+###use for another task
 apt_buildings %>%
   ggplot(aes(x = year_built, y = no_of_units)) + 
   geom_point(outlier.shape = NA, alpha = 0.2, colour = 'blue') +
@@ -110,6 +131,96 @@ apt_buildings %>%
   theme_classic()
 
 ```
+
+**Research question 3** : What are the variables for which information is most readily available (i.e. no missing data) and least readily available (i.e. large amount of missing data)?
+
+###
+*Summarizing*: Compute the *range*, *mean*, and *two other summary statistics* of **one numerical variable** across the groups of **one categorical variable** from your data.
+
+For this task, I will be computing the counts of each level of _prop_management_company_name_. I have chosen _prop_management_company_name_ since this variable appears to be a potential variable of interest for this research question as there are many variety of information in the rows from a glance. 
+
+```{r}
+#count level
+#prop_management_fct <- as.factor(apt_buildings$prop_management_company_name) %>% #convert to factor
+#  nlevels()
+
+#count NA for all variables
+apt_buildings %>%
+  summarise_all(~sum(is.na(.)))
+
+#count total number of rows in property_management_company_name
+#apt_buildings %>%
+#  select(prop_management_company_name) %>%
+#  summarise(n())
+
+
+#count number of NA in property_management_company_name
+#apt_buildings %>%
+#  select(prop_management_company_name) %>%
+#  summarise_all(funs(sum(is.na(.))))
+  
+
+```
+
+
+###
+*Graphing*: Create a graph of your choosing, make one of the axes logarithmic, and format the axes labels so that they are "pretty" or easier to read.
+
+
+**Research question 4** : What are the top three most popular building amenities? 
+
+*Summary* Compute the number of observations for at least one of your categorical variables.
+
+For this task, I will convert the _amenities_ variable to a factor, then compute the counts of each level. Then I will tidy the data by converting each cell into a single value.
+
+```{r}
+amenities_fct <- as.factor(apt_buildings$amenities) #convert amenities to factor
+
+amenities_count <- fct_count(amenities_fct) #compute counts of each level
+
+print(amenities_count)
+
+#convert each cell into single value
+amenities_count %>%
+  separate(f, into = c('f1','f2','f3', 'f4','f5','f6'), sep = ' , ') %>% #convert each cell to single value
+  pivot_longer(c('f1','f2','f3', 'f4','f5','f6'), names_to = 'f', values_to = 'amenities_type') %>% #place amenities in single variable
+  select(amenities_type) %>% #show only amenities type
+  na.omit() %>% #omit NA 
+  count(amenities_type) #count each amenity type
+
+```
+
+
+*Graphing* Create a graph of your choosing, make one of the axes logarithmic, and format the axes labels so that they are "pretty" or easier to read.
+
+For this task, I will use the new tibble from the summary task to create a bar graph which shows frequency of each type of amenities. The y-axis will be logarithmic, and the axes will be labeled as 'Type' and 'Frequency'. There will also ensure that there is no overlapping of the x-axis label text.
+
+```{r}
+amenities_fct <- as.factor(apt_buildings$amenities) #convert amenities to factor
+
+amenities_count <- fct_count(amenities_fct) #compute counts of each level
+
+#convert each cell into single value
+amenities_count %>%
+  separate(f, into = c('f1','f2','f3', 'f4','f5','f6'), sep = ' , ') %>% #convert each cell to single value
+  pivot_longer(c('f1','f2','f3', 'f4','f5','f6'), names_to = 'f', values_to = 'amenities_type') %>% #place amenities in single variable
+  select(amenities_type) %>% #show only amenities type
+  na.omit() %>% #omit NA 
+  
+  #create bar graph
+  ggplot(aes(amenities_type)) +
+  geom_bar(fill = 'steelblue', width = 0.9) +
+  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
+  ggtitle('Amenity Type Frequency') +
+  xlab('Type') + 
+  ylab('Frequency') +
+  theme_minimal()
+
+
+```
+
+
+
 
 
 <!----------------------------------------------------------------------------->
