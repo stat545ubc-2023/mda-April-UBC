@@ -455,23 +455,11 @@ apt_buildings_tidy <- apt_buildings_fct %>%
 #here^ I am marking the second NA with a period (.) as this specific task requires for me to immediate untidy the data after tidying it. In most cases, I would use the same NA for both 'Unknown' and 'Not Available' as they both indicate missing data
 
 #check that data is tidy
-print(select(apt_buildings_tidy,facilities_available))
+#print(select(apt_buildings_tidy,facilities_available))
+levels(apt_buildings_tidy$facilities_available) 
 ```
 
-    ## # A tibble: 3,455 × 1
-    ##    facilities_available
-    ##    <fct>               
-    ##  1 Recycling bins      
-    ##  2 Compost             
-    ##  3 Compost             
-    ##  4 Compost             
-    ##  5 Compost             
-    ##  6 Compost             
-    ##  7 NA                  
-    ##  8 Compost             
-    ##  9 Recycling bins      
-    ## 10 Recycling bins      
-    ## # ℹ 3,445 more rows
+    ## [1] "Recycling bins" "Compost"        "NA"             "NA."
 
 ``` r
 #untidy data
@@ -482,23 +470,12 @@ apt_buildings_untidy <- apt_buildings_tidy %>%
                                            'Not available' = 'NA.'))
 
 #check that data is untidy
-print(select(apt_buildings_untidy,facilities_available))
+#print(select(apt_buildings_untidy,facilities_available))
+levels(apt_buildings_untidy$facilities_available) 
 ```
 
-    ## # A tibble: 3,455 × 1
-    ##    facilities_available
-    ##    <fct>               
-    ##  1 Recycling bins      
-    ##  2 Green Bin / Organics
-    ##  3 Green Bin / Organics
-    ##  4 Green Bin / Organics
-    ##  5 Green Bin / Organics
-    ##  6 Green Bin / Organics
-    ##  7 Unknown             
-    ##  8 Green Bin / Organics
-    ##  9 Recycling bins      
-    ## 10 Recycling bins      
-    ## # ℹ 3,445 more rows
+    ## [1] "Recycling bins"       "Green Bin / Organics" "Unknown"             
+    ## [4] "Not available"
 
 <br> <br>
 
