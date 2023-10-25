@@ -3,7 +3,7 @@
     "path": "~/mini_data_analysis_AprilHwang/milestone_2/Mini Data Analysis Milestone 2.Rmd",
     "project_path": "milestone_2/Mini Data Analysis Milestone 2.Rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "3387096715",
     "contents": "",
     "dirty": false,
     "created": 1698269538523.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "457,0",
-        "scrollLine": "440"
+        "cursorPosition": "7,17",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1698270189,
+    "lastKnownWriteTime": 1698270555,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1698270189144,
+    "last_content_update": 1698270555587,
     "read_only": false,
     "read_only_alternatives": []
 }
