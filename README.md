@@ -13,7 +13,7 @@
   * _README.md_ : This README file provides information regarding this repository
   * _milestone 1_ : Contains rmd. and .md file for this assignment, as well as the supporting files
   * _milestone 2_: Contains rmd. and .md file for this assignment, as well as the supporting files
-  * _output_ : Part of milestone 2
+      + _output_ : Part of milestone 2
   * _.Rproj.user_ : Contains supporting files 
   
   
