@@ -321,7 +321,8 @@ apt_buildings_tidy <- apt_buildings_fct %>%
 #here^ I am marking the second NA with a period (.) as this specific task requires for me to immediate untidy the data after tidying it. In most cases, I would use the same NA for both 'Unknown' and 'Not Available' as they both indicate missing data
 
 #check that data is tidy
-print(select(apt_buildings_tidy,facilities_available))
+#print(select(apt_buildings_tidy,facilities_available))
+levels(apt_buildings_tidy$facilities_available) 
 
 
 #untidy data
@@ -332,7 +333,8 @@ apt_buildings_untidy <- apt_buildings_tidy %>%
                                            'Not available' = 'NA.'))
 
 #check that data is untidy
-print(select(apt_buildings_untidy,facilities_available))
+#print(select(apt_buildings_untidy,facilities_available))
+levels(apt_buildings_untidy$facilities_available) 
 ```
 
 <br>
