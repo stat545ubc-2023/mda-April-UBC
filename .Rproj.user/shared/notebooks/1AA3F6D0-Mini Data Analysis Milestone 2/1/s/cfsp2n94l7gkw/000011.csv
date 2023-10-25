@@ -1,0 +1,8 @@
+"0",""
+"0","#convert apt_building_NA to fct and count levels"
+"0","as.factor(apt_buildings_NA$col_name) %>%"
+"0","  nlevels()"
+"1","[1]"
+"1"," 37"
+"1","
+"

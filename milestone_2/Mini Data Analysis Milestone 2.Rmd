@@ -137,7 +137,10 @@ For this task, I will compute the number of NAs for all variables in `apt_buildi
 #count NA and tidy data
 apt_buildings_NA <- apt_buildings %>%
   summarise(across(everything(), ~ sum(is.na(.)))) %>% 
-  pivot_longer(cols = everything(), names_to = 'col_name', values_to = 'NA_count') 
+  pivot_longer(cols = everything(), names_to = 'col_name', values_to = 'NA_count') %>%
+
+  #use desc() to sort rows in descending order
+  arrange(desc(NA_count))
 
 print(apt_buildings_NA)
 
@@ -321,7 +324,6 @@ apt_buildings_tidy <- apt_buildings_fct %>%
 #here^ I am marking the second NA with a period (.) as this specific task requires for me to immediate untidy the data after tidying it. In most cases, I would use the same NA for both 'Unknown' and 'Not Available' as they both indicate missing data
 
 #check that data is tidy
-#print(select(apt_buildings_tidy,facilities_available))
 levels(apt_buildings_tidy$facilities_available) 
 
 
@@ -333,7 +335,6 @@ apt_buildings_untidy <- apt_buildings_tidy %>%
                                            'Not available' = 'NA.'))
 
 #check that data is untidy
-#print(select(apt_buildings_untidy,facilities_available))
 levels(apt_buildings_untidy$facilities_available) 
 ```
 
@@ -406,7 +407,7 @@ print(apt_buildings_NA)
 
 # Task 3: Modelling
 
-### 3.0 (no points) Pick a research question from 1.2, and a variable of interest.
+### 3.0 (no points) Pick a research question and a variable of interest.
 
 <br>
 
@@ -436,7 +437,7 @@ print(apt_buildings_model_fit)
 
 ### 3.2 (3 points) Produce p-value.
 
-For this task, I will produce the p-value by using broom::glance().
+For this task, I will produce the p-value by using `broom::glance()`.
 
 ```{r}
 apt_buildings_lm <- lm(no_of_units ~ no_of_storeys, data = apt_buildings)
