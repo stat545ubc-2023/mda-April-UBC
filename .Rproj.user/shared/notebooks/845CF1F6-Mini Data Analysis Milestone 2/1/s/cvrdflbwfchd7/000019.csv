@@ -1,0 +1,8 @@
+"0","#linear regression modeling"
+"0","apt_buildings_model_fit <- apt_buildings_unit_storeys %>%  "
+"0","  ggplot(aes(x = storeys, y = units)) +"
+"0","  geom_point(colour = 'steelblue') +"
+"0","  geom_smooth(method = 'lm', colour = 'black') +"
+"0","  theme_minimal()"
+"0",""
+"0","print(apt_buildings_model_fit)"

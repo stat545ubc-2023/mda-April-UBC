@@ -1,0 +1,6 @@
+"0","#create rise_level and move it forward as first column"
+"0","apt_buildings %>%"
+"0","  mutate(rise_level = case_when(no_of_storeys < 11 ~ 'low-rise',"
+"0","                                no_of_storeys < 16 ~ 'mid-rise', "
+"0","                                TRUE ~ 'high-rise')) %>%"
+"0","  relocate(rise_level)"

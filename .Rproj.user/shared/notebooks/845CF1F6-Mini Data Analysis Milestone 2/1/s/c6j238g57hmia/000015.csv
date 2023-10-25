@@ -1,0 +1,6 @@
+"0","#create year_level and move it as first column"
+"0","apt_buildings %>%"
+"0","  mutate(year_level = case_when(year_built < 1901 ~ '19th century',"
+"0","                                year_built < 2001 ~ '20th century', "
+"0","                                TRUE ~ '21st century')) %>%"
+"0","  relocate(year_level)"

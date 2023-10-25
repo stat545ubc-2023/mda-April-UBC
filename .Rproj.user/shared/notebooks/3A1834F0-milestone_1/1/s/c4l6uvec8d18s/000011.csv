@@ -1,3 +1,0 @@
-"0","#summarise(parking_meters, across(where(is.character), n_distinct))"
-"0","#summarise(steam_games, across(where(is.character), n_distinct))"
-"0","#summarise(vancouver_trees, across(where(is.character), n_distinct))"

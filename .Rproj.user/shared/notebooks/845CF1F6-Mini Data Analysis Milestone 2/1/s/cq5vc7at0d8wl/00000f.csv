@@ -1,0 +1,5 @@
+"0",""
+"0","#take summary table from task 1 and write it as csv file"
+"0","write_csv(apt_buildings_NA, here('output', 'apt_buildings_NA.csv'))"
+"0",""
+"0",""
