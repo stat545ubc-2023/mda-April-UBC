@@ -14,6 +14,7 @@ output: html_document
 library(datateachr)
 library(tidyverse)
 library(broom)
+library(here)
 ```
 
 # Task 1: Process and summarize your data 
@@ -435,7 +436,14 @@ Produce something relevant from your fitted model: either predictions on Y, or a
 For this task, I will produce the p-value by using broom::glance().
 
 ```{r}
-glance(apt_buildings_unit_storeys)
+apt_buildings_lm <- lm(no_of_units ~ no_of_storeys, data = apt_buildings)
+
+#use glance() to calculate p-value
+glance(apt_buildings_lm) %>%
+  
+  #indicate p.value column
+  select(p.value)
+
 ```
 
 
@@ -453,6 +461,9 @@ Take a summary table that you made from Task 1, and write it as a csv file in yo
 -   **Reproducibility criteria**: You should be able to delete the csv file, and remake it simply by knitting this Rmd file.
 
 <!-------------------------- Start your work below ---------------------------->
+```{r}
+here()
+```
 
 <!----------------------------------------------------------------------------->
 
