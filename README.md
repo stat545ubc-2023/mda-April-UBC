@@ -8,15 +8,13 @@
 
 #### How to engage with this repository?
   
-- You can enage in this directory by viewing the following documents as you wish: 
+- You can engage in this directory by viewing the following documents as you wish: 
 
   * _README.md_ : This README file provides information regarding this repository
-  * _milestone_1.Rmd_ : The rmd file for the milestone 1 of mini data analysis
-  * _milestone_1.md_ : The output md file for the milestone 1 of mini data analysis, and contents are the same as the milestone_1.Rmd file
-  * _.Rproj.user_ : Supporting files for the .md document 
-  * _milestone_1_files_ : Supporting files for figures in .md document
-  * _.Rhistory_ : View history if necessary
-
+  * _milestone 1_ : Contains rmd. and .md file for this assignment, as well as the supporting files
+  * _milestone 2_: Contains rmd. and .md file for this assignment, as well as the supporting files
+  * _.Rproj.user_ : Contains supporting files 
+  
   
   
   
