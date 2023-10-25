@@ -71,7 +71,7 @@ apt_buildings %>%
 
 *Graphing*: Create a graph that has at least two geom layers.
 
-I will create a graph with year_level (the same variable that I made in the above summarizing task) on the x-axis and no_of_accessible_parking_spaces on the y-axis. I will use geom_boxplot() and geom_jitter().
+I will create a graph with year_level (the same variable that I made in the above summarizing task) on the x-axis and no_of_accessible_parking_spaces on the y-axis. I will use geom_boxplot() and geom_jitter(). I will also remove a few extreme outliers which may be potential errors as they indicate over 150 accessible parking spaces.
 
 ```{r}
 apt_buildings %>%
@@ -79,8 +79,8 @@ apt_buildings %>%
                                 year_built < 2001 ~ '20th century', 
                                 TRUE ~ '21st century')) %>%
   ggplot(aes(x = year_level, y = no_of_accessible_parking_spaces)) + 
-  geom_boxplot() +
-  geom_jitter(alpha = 0.2) + 
+  geom_boxplot(colour = 'grey') +
+  geom_jitter(alpha = 0.2, colour = 'steelblue') + 
   scale_y_log10('no_of_accessible_parking_spaces') +
   theme_classic()
 
@@ -103,7 +103,7 @@ apt_buildings %>%
 
 *Graphing*:Create a graph that has at least two geom layers. 
 
-I will be creating a graph using geom_jitter() and geom_smooth(), incorporating the variable created above, _rise_level_.
+I will be creating a graph using geom_jitter() and geom_smooth(), incorporating the variable created above, _rise_level_. I will remove one outlier which is listed as having over 4000 units, which may be an error.
 
 
 ```{r}
@@ -135,30 +135,21 @@ apt_buildings %>%
 **Research question 3** : What are the variables for which information is most readily available (i.e. no missing data) and least readily available (i.e. large amount of missing data)?
 
 ###
-*Summarizing*: Compute the *range*, *mean*, and *two other summary statistics* of **one numerical variable** across the groups of **one categorical variable** from your data.
+*Summarizing*: Compute the number of observations for at least one of your categorical variables
 
-For this task, I will be computing the counts of each level of _prop_management_company_name_. I have chosen _prop_management_company_name_ since this variable appears to be a potential variable of interest for this research question as there are many variety of information in the rows from a glance. 
+For this task, I will compute the NA counts of each level of the all the columns in _apt_buildings_. I will also count the total number of levels as a reference to better answer the reserch question in the future.
 
 ```{r}
-#count level
-#prop_management_fct <- as.factor(apt_buildings$prop_management_company_name) %>% #convert to factor
-#  nlevels()
+#count NA and tidy data
+apt_buildings_NA <- apt_buildings %>%
+  summarise(across(everything(), ~ sum(is.na(.)))) %>% 
+  pivot_longer(cols = everything(), names_to = 'col_name', values_to = 'NA_count') 
 
-#count NA for all variables
-apt_buildings %>%
-  summarise_all(~sum(is.na(.)))
+print(apt_buildings_NA)
 
-#count total number of rows in property_management_company_name
-#apt_buildings %>%
-#  select(prop_management_company_name) %>%
-#  summarise(n())
-
-
-#count number of NA in property_management_company_name
-#apt_buildings %>%
-#  select(prop_management_company_name) %>%
-#  summarise_all(funs(sum(is.na(.))))
-  
+#convert apt_building_NA to fct and count levels
+as.factor(apt_buildings_NA$col_name) %>%
+  nlevels()
 
 ```
 
@@ -166,19 +157,51 @@ apt_buildings %>%
 ###
 *Graphing*: Create a graph of your choosing, make one of the axes logarithmic, and format the axes labels so that they are "pretty" or easier to read.
 
+```{r}
+
+#count NA, tidy data and arrange in descending order
+apt_buildings_NA <- apt_buildings %>%
+  summarise(across(everything(), ~ sum(is.na(.)))) %>% 
+  pivot_longer(cols = everything(), names_to = 'col_name', values_to = 'NA_count') %>%
+  arrange(desc(NA_count))
+
+print(apt_buildings_NA)
+
+#create bar graph for 5 columns with the highest number of NA values
+apt_buildings_NA %>%
+  slice_max(NA_count, n = 5) %>%
+
+  #shorten column names to fit graph
+  mutate(col_name = fct_recode(col_name, 
+                               'prop_management' = 'prop_management_company_name',
+                               'accessible_parking' = 'no_of_accessible_parking_spaces',
+                               'barrier_free_accessible_units' = 'no_barrier_free_accessible_units')) %>%
+
+  #plot point graph in descending order
+  ggplot(aes(x = fct_rev(fct_reorder(col_name, NA_count)), y = NA_count)) +
+  geom_col(fill = 'steelblue') +
+  scale_x_discrete(guide = guide_axis(n.dodge=2)) +
+  ggtitle('Columns with Highest NA Count') +
+  xlab('Column') + 
+  ylab('NA count') +
+  theme_minimal()
+
+
+```
+
 
 **Research question 4** : What are the top three most popular building amenities? 
 
 *Summary* Compute the number of observations for at least one of your categorical variables.
 
-For this task, I will convert the _amenities_ variable to a factor, then compute the counts of each level. Then I will tidy the data by converting each cell into a single value.
+For this task, I will convert the _amenities_ variable to a factor, then compute the counts of each level. Then I will tidy the data by converting each cell into a single value. For this research question, popularity of the amenities will be quantified by its frequency.
 
 ```{r}
-amenities_fct <- as.factor(apt_buildings$amenities) #convert amenities to factor
+#convert amenities to factor
+amenities_fct <- as.factor(apt_buildings$amenities) 
 
-amenities_count <- fct_count(amenities_fct) #compute counts of each level
-
-print(amenities_count)
+#compute counts of each level
+amenities_count <- fct_count(amenities_fct) 
 
 #convert each cell into single value
 amenities_count %>%
@@ -196,9 +219,11 @@ amenities_count %>%
 For this task, I will use the new tibble from the summary task to create a bar graph which shows frequency of each type of amenities. The y-axis will be logarithmic, and the axes will be labeled as 'Type' and 'Frequency'. There will also ensure that there is no overlapping of the x-axis label text.
 
 ```{r}
-amenities_fct <- as.factor(apt_buildings$amenities) #convert amenities to factor
+#convert amenities to factor
+amenities_fct <- as.factor(apt_buildings$amenities)
 
-amenities_count <- fct_count(amenities_fct) #compute counts of each level
+#compute counts of each level
+amenities_count <- fct_count(amenities_fct) 
 
 #convert each cell into single value
 amenities_count %>%
@@ -207,8 +232,8 @@ amenities_count %>%
   select(amenities_type) %>% #show only amenities type
   na.omit() %>% #omit NA 
   
-  #create bar graph
-  ggplot(aes(amenities_type)) +
+  #create bar graph in ascending order
+  ggplot(aes(x = fct_rev(fct_infreq(amenities_type)))) +
   geom_bar(fill = 'steelblue', width = 0.9) +
   scale_x_discrete(guide = guide_axis(n.dodge=2)) +
   ggtitle('Amenity Type Frequency') +
@@ -250,6 +275,12 @@ Based on the definition above, can you identify if your data is tidy or untidy? 
 
 <!--------------------------- Start your work below --------------------------->
 
+_apt_building_ is untidy for the following reasons:
+- _amenities_ contains multiple measurements 
+- _bike_parking_ contains multiple measurements 
+- _parking_type_ contains multiple measurements 
+- _facilities_available_ contains multiple measurements 
+
 <!----------------------------------------------------------------------------->
 
 ### 2.2 (4 points)
@@ -262,6 +293,47 @@ Be sure to explain your reasoning for this task. Show us the "before" and "after
 
 <!--------------------------- Start your work below --------------------------->
 
+
+Before (untidy):
+```{r}
+apt_buildings_fct <- apt_buildings %>% mutate(across(where(is_character),as_factor)) #convert chr to fct
+
+levels(apt_buildings_fct$facilities_available) 
+```
+
+
+
+After (tidy then untidy):
+```{r}
+apt_buildings_fct <- apt_buildings %>% mutate(across(where(is_character),as_factor)) #convert chr to fct
+
+#levels(apt_buildings_fct$facilities_available) #check for types of facilities
+
+#tidy facilities_available  
+apt_buildings_tidy <- apt_buildings_fct %>%
+    mutate(facilities_available = fct_recode(facilities_available, 
+                                           'Compost' = 'Green Bin / Organics',
+                                           'NA' = 'Unknown',
+                                           'NA' = 'Not Available'))
+
+#check that data is tidy
+print(select(apt_buildings_tidy,facilities_available))
+
+#untidy facilities_available
+
+apt_buildings_untidy <- apt_buildings_fct %>%
+    mutate(facilities_available = fct_recode(facilities_available, 
+                                           'Green Bin / Organics' = 'Compost',
+                                           'Unknown' = 'NA',
+                                           'Not Available' = 'NA'))
+
+#check that data is tidy
+print(select(apt_buildings_untidy,facilities_available))
+
+```
+
+Reasoning for this task:
+
 <!----------------------------------------------------------------------------->
 
 ### 2.3 (4 points)
@@ -270,8 +342,9 @@ Now, you should be more familiar with your data, and also have made progress in 
 
 <!-------------------------- Start your work below ---------------------------->
 
-1.  *FILL_THIS_IN*
-2.  *FILL_THIS_IN*
+1.  What are the variables for which information is most readily available (i.e. no missing data) and least readily available (i.e. large amount of missing data)?
+
+2.  Is there a relationship between the number of units and the number of storeys?
 
 <!----------------------------------------------------------------------------->
 
@@ -295,9 +368,9 @@ Pick a research question from 1.2, and pick a variable of interest (we'll call i
 
 <!-------------------------- Start your work below ---------------------------->
 
-**Research Question**: FILL_THIS_IN
+**Research Question**: Is there a relationship between the number of units and the number of storeys?
 
-**Variable of interest**: FILL_THIS_IN
+**Variable of interest**: Number of units
 
 <!----------------------------------------------------------------------------->
 
@@ -305,13 +378,46 @@ Pick a research question from 1.2, and pick a variable of interest (we'll call i
 
 Fit a model or run a hypothesis test that provides insight on this variable with respect to the research question. Store the model object as a variable, and print its output to screen. We'll omit having to justify your choice, because we don't expect you to know about model specifics in STAT 545.
 
--   **Note**: It's OK if you don't know how these models/tests work. Here are some examples of things you can do here, but the sky's the limit.
+Hypothesis: There will be a positive correlation between the number of storeys and the number of units.
 
-    -   You could fit a model that makes predictions on Y using another variable, by using the `lm()` function.
-    -   You could test whether the mean of Y equals 0 using `t.test()`, or maybe the mean across two groups are different using `t.test()`, or maybe the mean across multiple groups are different using `anova()` (you may have to pivot your data for the latter two).
-    -   You could use `lm()` to test for significance of regression coefficients.
+I will fit a model that makes predictions on the number of units using the number of storeys by using the `lm()` function.
+
 
 <!-------------------------- Start your work below ---------------------------->
+
+```{r}
+
+#prep data using 4-8 functions
+apt_buildings_unit_storeys <- apt_buildings %>%
+  
+  #use select() to drop irrelevant columns
+  select(no_of_storeys, no_of_units) %>% 
+  
+  #use arrange() to reorder rows 
+  relocate(no_of_units) %>%
+  
+  #use desc() to sort rows in descending order
+  arrange(desc(no_of_units)) %>%
+
+  #use rename() to shorten column labels
+  rename(storeys = no_of_storeys,
+         units = no_of_units) %>%
+  
+  #use slice() to remove first outlier row with 4000+ units
+  slice(-1)
+
+print(apt_buildings_unit_storeys)
+
+#linear regression modeling
+
+apt_buildings_unit_storeys %>%
+  ggplot(aes(x = storeys, y = units)) +
+    geom_point(colour = 'steelblue') +
+    geom_smooth(method = 'lm', colour = 'black') +
+    theme_minimal()
+
+```
+
 
 <!----------------------------------------------------------------------------->
 
