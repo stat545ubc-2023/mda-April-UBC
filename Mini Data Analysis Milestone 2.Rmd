@@ -462,7 +462,11 @@ Take a summary table that you made from Task 1, and write it as a csv file in yo
 
 <!-------------------------- Start your work below ---------------------------->
 ```{r}
-here()
+
+#write summary table as csv file using here()
+write_csv(apt_buildings_NA, here('output', 'apt_buildings_NA.csv'))
+
+
 ```
 
 <!----------------------------------------------------------------------------->
@@ -474,6 +478,15 @@ Write your model object from Task 3 to an R binary file (an RDS), and load it ag
 -   The same robustness and reproducibility criteria as in 4.1 apply here.
 
 <!-------------------------- Start your work below ---------------------------->
+
+```{r}
+#use saveRDS() to write model object to RDS file
+saveRDS(apt_buildings_lm, file = here('output', 'apt_buildings_lm.rds'))
+
+#use readRDS() to load RDS file
+readRDS(here('output', 'apt_buildings_lm.rds'))
+```
+
 
 <!----------------------------------------------------------------------------->
 
