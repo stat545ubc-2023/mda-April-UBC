@@ -1,0 +1,2 @@
+"0","#write summary table as csv file using here()"
+"0","write_csv(apt_buildings_NA, here('output', 'apt_buildings_NA.csv'))"
