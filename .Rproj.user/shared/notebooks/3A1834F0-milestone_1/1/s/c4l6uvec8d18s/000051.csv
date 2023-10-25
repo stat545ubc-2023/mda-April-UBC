@@ -1,0 +1,4 @@
+"0","#apt_summary <- summarise(apt_buildings, across(c(id:no_barrier_free_accessible_units), n_distinct))"
+"0","apt_summary_tbl <- summarise(apt_buildings, across(c(id:no_barrier_free_accessible_units), n_distinct)) "
+"0","long_summary_tbl <- apt_summary_tbl %>% pivot_longer(cols = everything(), names_to = ""variable_name"", values_to = ""n_distinct"")"
+"0","print(long_summary_tbl, n = 37)"
